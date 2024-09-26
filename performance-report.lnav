@@ -1,0 +1,80 @@
+:echo Total Number of Requests
+
+;SELECT COUNT(*) as total_count
+        FROM capi_nginx 
+
+:write-table-to -
+
+
+:echo Normalized Requests by Total Response Time
+
+;SELECT regexp_replace(request,'[a-z\d]{8}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{12}|=[^&]+', '...')
+        AS normalized_request, COUNT(*) as total_count, MIN(response_time) as min_response_time, ROUND(AVG(response_time), 2) as avg_response_time, ROUND(MAX(response_time), 2) as max_response_time, ROUND(SUM(response_time), 2) as total_response_time
+        FROM capi_nginx 
+	GROUP BY normalized_request
+        ORDER BY total_response_time DESC LIMIT 10
+
+:write-table-to -
+
+:echo Slowest Normalized Requests by Average Response Time
+
+;SELECT regexp_replace(request,'[a-z\d]{8}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{12}|=[^&]+', '...')
+        AS normalized_request, COUNT(*) as total_count, MIN(response_time) as min_response_time, ROUND(AVG(response_time), 2) as avg_response_time, ROUND(MAX(response_time), 2) as max_response_time, ROUND(SUM(response_time), 2) as total_response_time
+        FROM capi_nginx 
+	GROUP BY normalized_request
+        ORDER BY avg_response_time DESC LIMIT 10
+
+:write-table-to -
+
+:echo Slowest Normalized Requests by Max Response Time
+
+;SELECT regexp_replace(request,'[a-z\d]{8}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{12}|=[^&]+', '...')
+        AS normalized_request, COUNT(*) as total_count, MIN(response_time) as min_response_time, ROUND(AVG(response_time), 2) as avg_response_time, ROUND(MAX(response_time), 2) as max_response_time, ROUND(SUM(response_time), 2) as total_response_time
+        FROM capi_nginx 
+	GROUP BY normalized_request
+        ORDER BY max_response_time DESC LIMIT 10
+
+:write-table-to -
+
+:echo Normalized Requests that 499\'d
+
+;SELECT regexp_replace(request,'[a-z\d]{8}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{12}|=[^&]+', '...')
+        AS normalized_request, COUNT(*) as total_count, MIN(response_time) as min_response_time, ROUND(AVG(response_time), 2) as avg_response_time, ROUND(MAX(response_time), 2) as max_response_time, ROUND(SUM(response_time), 2) as total_response_time
+        FROM capi_nginx 
+	WHERE status_code = 499
+	GROUP BY normalized_request
+        ORDER BY max_response_time DESC LIMIT 10
+
+:write-table-to -
+
+
+:echo Slowest Normalized Requests by Total Response Time (query params completely removed)
+:echo (both guids and query params are replaces with empty string)
+
+;SELECT regexp_replace(request,'[a-z\d]{8}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{12}|\?.+', '')
+        AS normalized_request, COUNT(*) as total_count, MIN(response_time) as min_response_time, ROUND(AVG(response_time), 2) as avg_response_time, ROUND(MAX(response_time), 2) as max_response_time, ROUND(SUM(response_time), 2) as total_response_time
+        FROM capi_nginx 
+	GROUP BY normalized_request
+        ORDER BY total_response_time DESC LIMIT 10
+
+:write-table-to -
+
+:echo Slowest Normalized Requests by Total Response Time (query params completely removed) grouped by user agent
+:echo (both guids and query params are replaces with empty string)
+
+;SELECT regexp_replace(request,'[a-z\d]{8}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{4}-?[a-z\d]{12}|\?.+', '')
+        AS normalized_request, COUNT(*) as total_count, MIN(response_time) as min_response_time, ROUND(AVG(response_time), 2) as avg_response_time, ROUND(MAX(response_time), 2) as max_response_time, ROUND(SUM(response_time), 2) as total_response_time, user_agent
+        FROM capi_nginx 
+	GROUP BY normalized_request, user_agent
+        ORDER BY total_response_time DESC LIMIT 10
+
+:write-table-to -
+
+:echo Paginated Normalized Requests by Count per URL
+
+;SELECT COUNT(*) as total_count
+        FROM capi_nginx 
+        WHERE regexp_replace(request,'[^_]page=', 'FOO') LIKE '%FOO%'
+
+:write-table-to -
+

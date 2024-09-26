@@ -1,0 +1,43 @@
+{
+    "$schema": "https://lnav.org/schemas/format-v1.schema.json",
+    "cloud_controller_log": {
+        "title": "Cloud Controller Log",
+        "description": "",
+        "url": "",
+        "file-type": "json",
+        "hide-extra": true,
+        "ordered-by-time": false,
+        "level-field": "log_level",
+        "line-format": [
+        ],
+        "timestamp-field": "timestamp",
+        "opid-field": "data/b3_trace_id",
+        "value": {
+            "message": {
+                "kind": "string"
+            },
+            "data/status_code": {
+                "kind": "integer",
+                "identifier": true
+            },
+            "data/request_fullpath": {
+                "kind": "string"
+	    },
+	    "data/request_method": {
+		    "kind": "string"
+	    },
+	    "data/error": {
+		    "kind": "string"
+	    },
+	    "method": {
+		    "kind": "string"
+	    },
+	    "timestamp": {
+		    "kind": "string"
+	    },
+	    "data/b3_trace_id": {
+		    "kind": "string"
+	    }		
+	}
+    }
+}

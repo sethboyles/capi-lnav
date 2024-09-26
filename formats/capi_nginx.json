@@ -1,0 +1,48 @@
+{
+    "$schema": "https://lnav.org/schemas/format-v1.schema.json",
+    "capi_nginx": {
+        "description": "Format file generated from regex101 entry -- https://regex101.com/r/OQbZcq/1",
+        "regex": {
+            "logline": {
+                "pattern": "^(?P<remote_addr>[^\\s]+) - \\[(?P<timestamp>[\\w\\d\\/\\:]+\\s\\+\\d+)\\] \\\"(?P<request>[^\\\"]+) [A-Z\\.\\d\\/]+\\\" (?P<status_code>\\d{3})\\s(?P<size>\\d+) \\\"(?P<referrer>[^\\\"]+)\\\" \\\"(?P<user_agent>[^\\\"]+)\\\" (?P<ip_address>[\\d\\.\\,\\s]+) vcap_request_id:(?P<vcap_request_id>[^\\s]+) response_time:(?P<response_time>[\\d\\.]+)"
+            }
+        },
+        "value": {
+            "ip_address": {
+                "kind": "string"
+            },
+            "referrer": {
+                "kind": "string"
+            },
+            "remote_addr": {
+                "kind": "string"
+            },
+            "request": {
+                "kind": "string"
+            },
+            "response_time": {
+                "kind": "float"
+	    },
+	    "size": {
+		    "kind": "float"
+	    },
+	    "status_code": {
+		    "kind": "string"
+	    },
+	    "timestamp": {
+		    "kind": "string"
+	    },
+	    "user_agent": {
+		    "kind": "string"
+	    },
+	    "vcap_request_id": {
+		    "kind": "string"
+	    }
+	},
+        "sample": [
+            {
+                "line": "api.run-zb.homedepot.com - [19/Aug/2024:16:04:05 +0000] \"GET /v2/apps/2c118125-fec0-4a2c-9541-0d0bb3a9d81d/summary HTTP/1.1\" 500 195 \"-\" \"Go-http-client/1.1\" 172.28.126.106, 172.29.167.134, 10.254.34.22, 172.26.172.67, 172.29.165.130, 172.28.126.21 vcap_request_id:- response_time:0.005"
+            }
+        ]
+    }
+}
